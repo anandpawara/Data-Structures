@@ -1,5 +1,4 @@
-/*this code is taken from 
-*/
+//this code is taken from https://www.geeksforgeeks.org/find-length-of-a-linked-list-iterative-and-recursive/
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -10,7 +9,7 @@ struct node
 	int data;
 	struct node *next;
 };
-//HELPER FUNCTIONS
+
 /* Given a reference to head of a list
 and an int,inserts a new node on the front of the list*/
 
@@ -20,6 +19,39 @@ void push(struct node **head_ref,int data)
 	new_node->data = data;
 	new_node->next = (*head_ref);
 	(*head_ref) = new_node;
+}
+
+/* Give a reference of the head of a list,deletes the
+node at the given position*/
+void deleteNode(struct node **head_ref,int position)
+{
+	if(*head_ref == NULL)
+	return;
+	
+	struct node *temp = *head_ref;
+	
+	if(position == 0)
+	{
+		*head_ref = temp->next;
+		free(temp);
+		return;
+	}
+	
+	//Find previous node of the node to be deleted
+	for(int i = 0;temp!=NULL && i< position-1;i++)
+		temp = temp->next;  		
+		
+	//If position is more than the number of nodes
+	if(temp==NULL || temp->next == NULL)
+		return;
+	
+	//Node temp->next is the node to be deleted
+	//Store pointer to the next of node to be deleted
+	struct node *next = temp->next->next;
+	
+	//Free the node fron the linked list
+	free(temp->next);
+	temp->next = next;
 }
 
 //Helper function for printing linked list
@@ -32,60 +64,22 @@ void printList(struct node *node)
 	}
 }
 
-/* ----------------------Start code from here ------------------------*/
-//Counts no. of nodes iteratively
-
-/*int getCount(struct node *head)
-{
-	int count = 0;
-	struct node *current = head;
-	//If empty list is passed the return count = 0
-	if(head == NULL)
-		return 0;
-	//Traverse node till last node
-	while(current != NULL)
-	{
-		count++;
-		current = current->next;
-	}
-	return count;
-}*/
-
-//Count no of nodes recursively
-
-int getCount(struct node *head)
-{
-	if(head == NULL)
-		return 0;
-	return 1 + getCount(head->next);
-}
-		
-
-
-
-
-
-
-
-
-/* ----------------------------end---------------------------------*/
-
-
-
 //Main driver function
 int main()
 {
 	//Start with empty list
 	struct node *head = NULL;
-	
-	push(&head,1);
-	push(&head,3);
-	push(&head,1);
-	push(&head,2);
-	push(&head,1);
-	
-	//Count the no. of nodes
-	printf("Node count is %d\n",getCount(head));
-	return 0;
+	  push(&head, 7);
+    push(&head, 1);
+    push(&head, 3);
+    push(&head, 2);
+    push(&head, 8);
+ 
+    puts("Created Linked List: ");
+    printList(head);
+    deleteNode(&head, 4);
+    puts("\nLinked List after Deletion at position 4: ");
+    printList(head);
+    return 0;
 }
 
