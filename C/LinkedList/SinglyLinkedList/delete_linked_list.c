@@ -25,21 +25,29 @@ void push(struct node **head_ref,int data)
 //Helper function for printing linked list
 void printList(struct node *node)
 {
-	while(node->next != NULL)
+	while(node != NULL)
 	{
-		printf("%d-> ",node->data);
+		printf("%d ",node->data);
 		node = node->next;
 	}
-	printf("%d\n",node->data);
 }
 
 /* ----------------------Start code from here ------------------------*/
 
+//Function to delete the entire linked list
 
-
-
-
-
+void deleteList(struct node **head_ref)
+{
+	struct node *current = *head_ref;
+	struct node *next;
+	while(current)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+	}
+	*head_ref = NULL;
+}
 
 
 
@@ -52,11 +60,14 @@ int main()
 {
 	//Start with empty list
 	struct node *head = NULL;
-	push(&head,);
-	push(&head,);
-	push(&head,);
-	push(&head,);
- 	print("\n");
+	push(&head, 1);
+	push(&head, 4);
+	push(&head, 1);
+	push(&head, 12);
+	push(&head, 1);
+ 	printf("\nDeleting linked list");
+ 	deleteList(&head);
+ 	printf("\nLinked list is deleted");
 	return 0;
 }
 
